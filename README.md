@@ -82,4 +82,4 @@ pdoc keychat_bots -o docs
 python -m http.server 8000 -d docs
 ```
 
-Platform documentation: <https://chat.wokey.pro/docs/bots/>. Default API endpoint: `https://api-chat.wokey.pro`; pass `base_url=` for local tests.
+Platform documentation: <https://chat.wokey.pro/docs/bots/>. Default API endpoint: `https://chat.wokey.pro/_keychat`; pass `base_url=` for local tests.

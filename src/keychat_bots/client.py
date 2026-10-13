@@ -5,7 +5,7 @@ from typing import Any, BinaryIO
 
 import httpx
 
-DEFAULT_BASE_URL = "https://api-chat.wokey.pro"
+DEFAULT_BASE_URL = "https://chat.wokey.pro/_keychat"
 
 
 class KeyChatError(RuntimeError):
