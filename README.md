@@ -30,7 +30,7 @@ Create a bot in Key Chat and issue its runtime token. In the existing bot's edit
 ```python
 import os
 from uuid import uuid4
-from keychat_bots import KeyChatBot
+from keychat_bots import KeyChatBot, bot_command
 from keychat_bots.client import callback_button, command_button
 
 bot = KeyChatBot(os.environ["KEYCHAT_BOT_TOKEN"])
@@ -41,12 +41,18 @@ result = bot.send_message(
         "format": "markdown",
         "keyboard": {"rows": [[command_button("/help")], [callback_button("details", "Details", "job-42")]]},
         "menu": {"rows": [[command_button("/start"), command_button("/settings")]]},
+        "commands": [
+            bot_command("/start", description="Start again", icon="▶️"),
+            bot_command("/invite", arguments="<email>", description="Invite a user"),
+        ],
     },
     idempotency_key=str(uuid4()),
 )
 ```
 
 Omit `menu` to keep the current menu; use `"menu": None` to hide it. Callback buttons do not send a visible message. Update a bot message with `bot.edit_message(chat_id, event_id, content)` and reply with `bot.reply(...)`.
+
+`commands` updates slash-command autocomplete in direct bot chats. Omit it to preserve the current list; use `None` or `[]` to clear it. Arguments are displayed as hints but only the clean command is inserted.
 
 ```python
 media = bot.upload_media("result.png", mime_type="image/png")

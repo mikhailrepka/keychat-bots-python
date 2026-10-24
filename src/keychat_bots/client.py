@@ -86,6 +86,11 @@ def command_button(command: str, **options: Any) -> dict[str, Any]:
     return {**options, "command": command}
 
 
+def bot_command(command: str, **options: Any) -> dict[str, Any]:
+    """Build a slash-command autocomplete entry."""
+    return {**options, "command": command}
+
+
 def callback_button(button_id: str, text: str, data: str | None = None, **options: Any) -> dict[str, Any]:
     return {**options, "id": button_id, "text": text, "action": {"type": "callback", "data": data}}
 
