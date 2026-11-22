@@ -59,6 +59,14 @@ media = bot.upload_media("result.png", mime_type="image/png")
 bot.send_message(chat_id, {"attachments": [{"type": "image", **media}]})
 ```
 
+Download an attachment received in a `message.created` webhook. Key Chat verifies and decrypts encrypted-chat media before returning the bytes. The grant is limited to this bot and lasts 7 days.
+
+```python
+attachment = event["data"]["message"]["attachments"][0]
+data = bot.download_media(attachment["server"], attachment["media_id"])
+process_image(data, attachment.get("mime_type"))
+```
+
 ## Receive webhooks
 
 Always verify the signature against the raw body before parsing JSON:

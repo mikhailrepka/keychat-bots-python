@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 from typing import Any, BinaryIO
+from urllib.parse import quote
 
 import httpx
 
@@ -80,6 +81,17 @@ class KeyChatBot:
                 return self.upload_media(stream, filename=filename or path.name, mime_type=mime_type)
         name = filename or getattr(source, "name", "attachment")
         return self._request("POST", "/v1/bot/media", files={"file": (str(name), source, mime_type)})
+
+    def download_media(self, server: str, media_id: str) -> bytes:
+        """Download and, when necessary, decrypt media delivered to this bot."""
+        response = self._client.get(f"/v1/bot/media/download/{quote(server, safe='')}/{quote(media_id, safe='')}")
+        if response.is_error:
+            try:
+                body: Any = response.json()
+            except ValueError:
+                body = None
+            raise KeyChatError(response.status_code, body)
+        return response.content
 
 
 def command_button(command: str, **options: Any) -> dict[str, Any]:
